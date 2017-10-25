@@ -9,6 +9,8 @@
     
     <meta name="author" content="wangzihanfly">
     
+    <meta name="description" content="title: 用termux打包的proot安装Fedora26date: 2017-10-25 22:09:21tags:—用termux打包的proot运行Fedora26，下面是我根据网络上面的教程把教程里面涉及Fedora24的地方换成了Fedora26，只需要按照步骤粘贴到termux里面的home目录下依次执行就行了。">
+    
     
     
     
@@ -67,15 +69,15 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/10/24/lifeiswife/" title="" itemprop="url"></a>
+      <a href="/2017/10/25/用termux打包的proot安装Fedora26/" title="" itemprop="url"></a>
   </h1>
   <p class="article-author">By
     
       <a href="http://yoursite.com" title="wangzihanfly">wangzihanfly</a>
     </p>
   <p class="article-time">
-    <time datetime="2017-10-24T03:46:34.956Z" itemprop="datePublished">2017-10-24</time>
-    更新日期:<time datetime="2017-10-24T03:46:34.956Z" itemprop="dateModified">2017-10-24</time>
+    <time datetime="2017-10-25T14:27:34.218Z" itemprop="datePublished">2017-10-25</time>
+    更新日期:<time datetime="2017-10-25T14:27:34.198Z" itemprop="dateModified">2017-10-25</time>
     
   </p>
 </header>
@@ -87,7 +89,34 @@
 		
 		</div>
 		
-		  
+		<hr>
+<p>title: 用termux打包的proot安装Fedora26<br>date: 2017-10-25 22:09:21<br>tags:<br>—用termux打包的proot运行Fedora26，下面是我根据网络上面的教程把教程里面涉及Fedora24的地方换成了Fedora26，只需要按照步骤粘贴到termux里面的home目录下依次执行就行了。<a id="more"></a>需要注意的是“#”符号后面的不需要粘贴。如果没有成功的小伙伴可以参考原文<a href="https://nmilosev.svbtle.com/termuxfedora-install-fedora-on-your-phone-with-termux。" target="_blank" rel="external">https://nmilosev.svbtle.com/termuxfedora-install-fedora-on-your-phone-with-termux。</a></p>
+<p>1#<br>apt update &amp;&amp; apt install wget -y &amp;&amp; /data/data/com.termux/files/usr/bin/wget <a href="https://raw.githubusercontent.com/nmilosev/termux-fedora/master/termux-fedora.sh" target="_blank" rel="external">https://raw.githubusercontent.com/nmilosev/termux-fedora/master/termux-fedora.sh</a> &amp;&amp; sh termux-fedora.sh </p>
+<p>2#install necessary packages</p>
+<p>apt install proot tar -y</p>
+<p>3#get the docker image </p>
+<p>mkdir ~/fedora </p>
+<p>cd ~/fedora </p>
+<p>/data/data/com.termux/files/usr/bin/ wget <a href="http://download.fedoraproject.org/pub/fedora/linux/releases/26/Docker/aarch64/images/Fedora-Docker-Base-26_Alpha-1.7.aarch64.tar.xz" target="_blank" rel="external">http://download.fedoraproject.org/pub/fedora/linux/releases/26/Docker/aarch64/images/Fedora-Docker-Base-26_Alpha-1.7.aarch64.tar.xz</a></p>
+<p>4#extract the Docker image</p>
+<p>/data/data/com.termux/files/usr/bin/tar xvf Fedora-Docker-Base-26_Alpha-1.7.aarch64.tar.xz –strip-components=1 –exclude json –exclude VERSION  </p>
+<p>5#extract the rootfs  </p>
+<p>/data/data/com.termux/files/usr/bin/tar xpf layer.tar  </p>
+<p>6#cleanup  </p>
+<p>chmod +w . </p>
+<p>rm layer.tar </p>
+<p>rm Fedora-Docker-Base-26_Alpha-1.7.aarch64.tar.xz</p>
+<p>7#fix DNS  </p>
+<p>echo “nameserver 8.8.8.8” &gt; ~/fedora/etc/resolv.conf  </p>
+<p>8# make a shortcut  </p>
+<p>cat &gt; /data/data/com.termux/files/usr/bin/startfedora &lt;&lt;- EOM </p>
+<p>9#!/data/data/com.termux/files/usr/bin/bash</p>
+<p>proot –link2symlink -0 -r ~/fedora -b /dev/ -b /sys/ -b /proc/ -b $HOME /bin/env -i HOME=/root TERM=”$TERM” PS1=’[termux@fedora \W]\$ ‘ PATH=/bin:/usr/bin:/sbin:/usr/sbin /bin/bash –login</p>
+<p>EOM</p>
+<p>chmod +x /data/data/com.termux/files/usr/bin/startfedora</p>
+<p>10# all done</p>
+<p>echo “All done! Start Fedora with ‘startfedora’. Gets update with regular ‘dnf update’. “<br>好了，如果上面都没有出现问题的话，就可以愉快的玩耍啦。如果出现问题也不要紧，多看看原文作者的文章，英语不好或者不会英语也没关系，直接复制粘贴到在线翻译就可以了。</p>
+  
 	</div>
 		<footer class="article-footer clearfix">
 
@@ -96,7 +125,7 @@
 
 <div class="article-share" id="share">
 
-  <div data-url="http://yoursite.com/2017/10/24/lifeiswife/" data-title="The freedom of Corner" data-tsina="" class="share clearfix">
+  <div data-url="http://yoursite.com/2017/10/25/用termux打包的proot安装Fedora26/" data-title="The freedom of Corner" data-tsina="" class="share clearfix">
   </div>
 
 </div>
@@ -105,17 +134,9 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2017/10/25/用termux打包的proot安装Fedora26/" title="">
-  <strong>PREVIOUS:</strong><br/>
-  <span>
-  (no title)</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2017/10/23/My-new-post/"  title="">
+<a href="/2017/10/24/lifeiswife/"  title="">
  <strong>NEXT:</strong><br/> 
  <span>(no title)
 </span>
